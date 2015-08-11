@@ -4,15 +4,15 @@
 // Company: 
 // Engineer:
 //
-// Create Date:   22:18:40 08/08/2015
-// Design Name:   maquinaestados
-// Module Name:   D:/TEC/lab de integrados/teclado/simulacionmaquina.v
+// Create Date:   16:50:55 08/10/2015
+// Design Name:   Proyecto1
+// Module Name:   D:/TEC/Lab Digitales/teclado/simproyecto1.v
 // Project Name:  teclado
 // Target Device:  
 // Tool versions:  
 // Description: 
 //
-// Verilog Test Fixture created by ISE for module: maquinaestados
+// Verilog Test Fixture created by ISE for module: Proyecto1
 //
 // Dependencies:
 // 
@@ -22,7 +22,7 @@
 // 
 ////////////////////////////////////////////////////////////////////////////////
 
-module simulacionmaquina;
+module simproyecto1;
 
 	// Inputs
 	reg clk;
@@ -30,7 +30,7 @@ module simulacionmaquina;
 	reg interruptor;
 	reg temp;
 	reg humo;
-	reg [4:0] corriente;
+	reg [3:0] cor;
 
 	// Outputs
 	wire LEDalerta;
@@ -38,20 +38,24 @@ module simulacionmaquina;
 	wire LEDnormal;
 	wire alarma_alerta;
 	wire alarma_prevencion;
+	wire [3:0] cualdisplay;
+	wire [7:0] display;
 
 	// Instantiate the Unit Under Test (UUT)
-	maquinaestados uut (
+	Proyecto1 uut (
 		.clk(clk), 
 		.rst(rst), 
 		.interruptor(interruptor), 
 		.temp(temp), 
 		.humo(humo), 
-		.corriente(corriente), 
+		.cor(cor), 
 		.LEDalerta(LEDalerta), 
 		.LEDprevencion(LEDprevencion), 
 		.LEDnormal(LEDnormal), 
 		.alarma_alerta(alarma_alerta), 
-		.alarma_prevencion(alarma_prevencion)
+		.alarma_prevencion(alarma_prevencion), 
+		.cualdisplay(cualdisplay), 
+		.display(display)
 	);
 
 	initial begin
@@ -61,46 +65,45 @@ module simulacionmaquina;
 		interruptor = 0;
 		temp = 0;
 		humo = 0;
-		corriente = 0;
+		cor = 0;
 
 		// Wait 100 ns for global reset to finish
 		#100;
+        
+		// Add stimulus here
+	end
+	initial begin
+		clk = 0;
+		forever #1 clk = ~clk;
 	end
 	
 	initial begin
-		clk = 0;
-		forever #10 clk = ~clk;
-	end
-	initial begin// this process block specifies the stimulus.
-	rst = 0;
-	#10
 	rst = 1;
 	#10
 	rst = 0;
-	#100
+	#10
 	interruptor = 1;
-	#100
+	#1000
 	interruptor = 0;
-	#100
+	#1000
 	interruptor = 1;
-	#100
+	#131000
 	humo = 1;
-	#100
+	#524000
 	humo = 0;
-	#100
 	temp = 1;
-	#100
+	#524000
 	temp = 0;
-	#100
-	rst = 1;
-	#100
-	rst = 0;
-	#100
-	corriente = 5'b10101;
-	#100
-	corriente = 5'b00101;
-	#1000 $stop;
+	cor = 4'b1111;
+	#524000
+	cor = 4'b0001;
+	#262000 $stop;
 	end  
-      
+	
+	//always@(posedge clk)
+	//begin
+	 //$display($time, "\t cualdisplay = %b",cualdisplay);
+	 //$display($time, "\t display = %h",display);
+   //end        
 endmodule
 

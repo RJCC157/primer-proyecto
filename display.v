@@ -38,11 +38,11 @@ reg punto;
 //Contador de N-bits
 always @(posedge clk, posedge reset)
 	if (reset)
-		estadoactual <=0;
+		estadoactual <= 0;
 	else
-		estadoactual <=estadosig;
+		estadoactual <= estadosig;
 //Logica estado siguiente
-assign estadosig = estadoactual+1;
+assign estadosig = estadoactual+1'b1;
 //Los 2 MSB's controlan el mux
 always@*
 	case(estadoactual[N-1:N-2])
@@ -64,7 +64,7 @@ always@*
 				hexaentrante = hexa2;
 				punto = puntos4[2];
 			end
-		2'b11:
+		default:
 			begin
 				cualdisplay = 4'b0111;
 				hexaentrante = hexa3;
@@ -76,22 +76,22 @@ always@*
 always @*
 begin 
 	case (hexaentrante)
-		4'h0: sieteseg [6:0] = 7'b0000001;
-		4'h1: sieteseg [6:0] = 7'b1001111;
-		4'h2: sieteseg [6:0] = 7'b0010010;
-		4'h3: sieteseg [6:0] = 7'b0000110;
-		4'h4: sieteseg [6:0] = 7'b1001100;
-		4'h5: sieteseg [6:0] = 7'b0100100;
-		4'h6: sieteseg [6:0] = 7'b0100000;
-		4'h7: sieteseg [6:0] = 7'b0001111;
-		4'h8: sieteseg [6:0] = 7'b0000000;
+		4'h0: sieteseg [6:0] = 7'b1000000;
+		4'h1: sieteseg [6:0] = 7'b0000111;
+		4'h2: sieteseg [6:0] = 7'b0100100;
+		4'h3: sieteseg [6:0] = 7'b0110000;
+		4'h4: sieteseg [6:0] = 7'b0001100;
+		4'h5: sieteseg [6:0] = 7'b0010010;
+		4'h6: sieteseg [6:0] = 7'b1111111;
+		4'h7: sieteseg [6:0] = 7'b0001001;
+		4'h8: sieteseg [6:0] = 7'b1000001;
 		4'h9: sieteseg [6:0] = 7'b0000100;
 		4'ha: sieteseg [6:0] = 7'b0001000;
 		4'hb: sieteseg [6:0] = 7'b1100000;
 		4'hc: sieteseg [6:0] = 7'b0110001;
 		4'hd: sieteseg [6:0] = 7'b1000010;
-		4'he: sieteseg [6:0] = 7'b0110000;
-		default: sieteseg [6:0] = 7'b0111000;			
+		4'he: sieteseg [6:0] = 7'b0000110;
+		default: sieteseg [6:0] = 7'b0001110;			
 	endcase
 	sieteseg[7] = punto;
 end
